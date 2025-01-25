@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  redis:
+    image: "redis:latest"
+    container_name: "redis"
+    networks:
+      - backend
+
+  voting-app:
+    build:
+      context: ./vote
+      dockerfile: Dockerfile
+    container_name: "voting-app"
+    ports:
+      - "5000:80"
+    networks:
+      - front-end
+      - backend
+    depends_on:
+      - redis
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    container_name: "worker"
+    networks:
+      - backend
+    depends_on:
+      - redis
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Postgres=Server=db;Username=postgres;Password=postgres;
+      - ConnectionStrings__Redis=redis
+
+  db:
+    image: "postgres:latest"
+    container_name: "db"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - backend
+  result-app:
+    build:
+      context: ./result
+      dockerfile: Dockerfile
+    container_name: "result-app"
+    ports:
+      - "5001:80"
+    networks:
+      - front-end
+      - backend
+    depends_on:
+      - redis
+      - db
+
+networks:
+  front-end:
+    driver: bridge
+  backend:
+    driver: bridge
