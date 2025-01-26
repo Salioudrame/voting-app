@@ -20,6 +20,11 @@ This project is a simple voting application that allows users to vote on various
 - Containerization: Docker
 - CI/CD: GitHub Actions
 
+### Prerequisites
+
+- Docker
+- Docker Compose
+
 ## Installation
 
 1. Clone the repository:
@@ -44,25 +49,22 @@ This project is a simple voting application that allows users to vote on various
 
 ## Running the Application
 
-1. Start the backend server:
-   ```bash
-   npm run server
-   ```
-2. Start the frontend development server:
-   ```bash
-   npm start
-   ```
+1. **Start the Docker Compose Services**:
 
-## Running with Docker
+   - Ensure Docker is running on your machine.
+   - Navigate to the directory containing your `compose.yaml` file.
+   - Run the following command to start all the services:
 
-1. Build the Docker images:
-   ```bash
-   docker-compose build
-   ```
-2. Start the containers:
-   ```bash
-   docker-compose up
-   ```
+     ```sh
+     docker-compose up -d
+     ```
+
+2. **Access the Voting App**:
+
+   - Open your web browser and navigate to `http://localhost:5000` to access the voting application.
+
+3. **Access the Result App**:
+   - Open your web browser and navigate to `http://localhost:5001` to view the poll results.
 
 ## Contributing
 
