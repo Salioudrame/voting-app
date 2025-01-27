@@ -26,11 +26,17 @@ services:
       - backend
     depends_on:
       - redis
-      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Postgres=Server=db;Username=postgres;Password=postgres;
+      - ConnectionStrings__Redis=redis
 
   db:
     image: "postgres:latest"
     container_name: "db"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     networks:
       - backend
   result-app:
@@ -44,6 +50,7 @@ services:
       - front-end
       - backend
     depends_on:
+      - redis
       - db
 
 networks:
