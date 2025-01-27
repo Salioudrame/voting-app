@@ -4,6 +4,8 @@ services:
     container_name: "redis"
     networks:
       - backend
+    volumes:
+      - redis-data:/data
 
   voting-app:
     build:
@@ -40,6 +42,9 @@ services:
       POSTGRES_PASSWORD: postgres
     networks:
       - backend
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
   result-app:
     build:
       context: ./result
@@ -59,3 +64,7 @@ networks:
     driver: bridge
   backend:
     driver: bridge
+
+volumes:
+  redis-data:
+  postgres-data:
